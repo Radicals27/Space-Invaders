@@ -69,6 +69,8 @@ new_bullet = bullet(new_player.xcor, new_player.ycor)
 
 global FPSCLOCK, DISPLAYSURF
 
+game_over = False
+
 pygame.init()
 FPSCLOCK = pygame.time.Clock()
 DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
@@ -115,7 +117,7 @@ def enemy_collision(x, y):
 def enemy_spawn_generator():
     while True:
         xcor = random.randint(50, 500)
-        ycor = random.randint(50, 150)
+        ycor = random.randint(50, 200)
         if not enemy_collision(xcor, ycor):
             break
     return (xcor, ycor)
@@ -173,6 +175,8 @@ while True:
         if e.hitbox.colliderect(new_player.hitbox):
             winsound.PlaySound("explosion", winsound.SND_ASYNC)
             new_player.ycor = 1000
+            game_over = True
+
 
     if bulletstate == "fire":
         new_bullet.ycor -= bulletspeed
@@ -193,5 +197,11 @@ while True:
         new_bullet.ycor = -20
         bulletstate = "ready"
 
+    if game_over == True:
+        message_display(300, 400, "GAME OVER")
+        enemies.clear()
+
+    if not enemies:
+        message_display(300, 400, "YOU WIN!")
     pygame.display.update()
     FPSCLOCK.tick(FPS)
