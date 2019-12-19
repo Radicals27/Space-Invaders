@@ -65,11 +65,11 @@ score = 0
 bulletspeed = 20
 bulletstate = "ready"
 
+game_over = False
+
 new_bullet = bullet(new_player.xcor, new_player.ycor)
 
 global FPSCLOCK, DISPLAYSURF
-
-game_over = False
 
 pygame.init()
 FPSCLOCK = pygame.time.Clock()
@@ -108,12 +108,14 @@ def fire_bullet():
         new_bullet.ycor = new_player.ycor - 10
         DISPLAYSURF.blit(new_bullet.image, (new_bullet.xcor, new_bullet.ycor))
 
+#Check for an enemy collision at 2 coordinates
 def enemy_collision(x, y):
     for e in enemies:
         if e.hitbox.colliderect(pygame.Rect(x, y, 24, 24)):
             return True
     return False
 
+#Generate a spawn coordinate that doesn't collide with another enemy
 def enemy_spawn_generator():
     while True:
         xcor = random.randint(50, 500)
@@ -122,9 +124,9 @@ def enemy_spawn_generator():
             break
     return (xcor, ycor)
 
-#Enemy spawner @ start
+#Initial enemy spawner
 for i in range(number_of_enemies):
-    if i == 1:
+    if i == 1:  #Initially add one enemy anywhere (no collision check required)
         enemies.append(enemy(*enemy_spawn_generator()))
         DISPLAYSURF.blit(enemies[0].image, (enemies[0].xcor, enemies[0].ycor))
         enemies[0].hitbox = pygame.Rect((enemies[0].xcor, enemies[0].ycor, 24, 24))
@@ -133,6 +135,7 @@ for i in range(number_of_enemies):
         DISPLAYSURF.blit(enemies[i].image, (enemies[i].xcor, enemies[i].ycor))
         enemies[i].hitbox = pygame.Rect((enemies[i].xcor, enemies[i].ycor, 24, 24))
 
+#Main game loop
 while True:
     DISPLAYSURF.fill(BGCOLOR)
     DISPLAYSURF.blit(new_player.image, (new_player.xcor, new_player.ycor))
