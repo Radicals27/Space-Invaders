@@ -24,7 +24,7 @@ BGCOLOR = (0, 0, 0)
 player_x = 300
 player_y = 700
 
-number_of_enemies = 5
+number_of_enemies = 15
 enemies = []
 enemy_speed = 2
 
@@ -109,14 +109,13 @@ def fire_bullet():
 def enemy_collision(x, y):
     for e in enemies:
         if e.hitbox.colliderect(pygame.Rect(x, y, 24, 24)):
-            print("collision == True")
             return True
     return False
 
 def enemy_spawn_generator():
     while True:
-        xcor = random.randint(100, 200)
-        ycor = random.randint(70, 120)
+        xcor = random.randint(50, 500)
+        ycor = random.randint(50, 150)
         if not enemy_collision(xcor, ycor):
             break
     return (xcor, ycor)
@@ -185,6 +184,9 @@ while True:
                 winsound.PlaySound("explosion", winsound.SND_ASYNC)
                 enemies.remove(e)
                 score += 10
+                new_bullet.xcor = -20
+                new_bullet.ycor = -20
+                bulletstate = "ready"
 
     if new_bullet.ycor < 40:
         new_bullet.xcor = -20
