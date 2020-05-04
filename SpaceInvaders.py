@@ -126,14 +126,9 @@ def enemy_spawn_generator():
 
 #Initial enemy spawner
 for i in range(number_of_enemies):
-    if i == 1:  #Initially add one enemy anywhere (no collision check required)
-        enemies.append(enemy(*enemy_spawn_generator()))
-        DISPLAYSURF.blit(enemies[0].image, (enemies[0].xcor, enemies[0].ycor))
-        enemies[0].hitbox = pygame.Rect((enemies[0].xcor, enemies[0].ycor, 24, 24))
-    else:
-        enemies.append(enemy(*enemy_spawn_generator()))
-        DISPLAYSURF.blit(enemies[i].image, (enemies[i].xcor, enemies[i].ycor))
-        enemies[i].hitbox = pygame.Rect((enemies[i].xcor, enemies[i].ycor, 24, 24))
+    enemies.append(enemy(*enemy_spawn_generator()))
+    DISPLAYSURF.blit(enemies[i].image, (enemies[i].xcor, enemies[i].ycor))
+    enemies[i].hitbox = pygame.Rect((enemies[i].xcor, enemies[i].ycor, 24, 24))
 
 #Main game loop
 while True:
